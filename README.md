@@ -1,2 +1,5 @@
-# drec-fpga-intro
-Problems, slides and notes for "Introduction to FPGA and Verilog" at MIPT DREC
+# Introduction to FPGA and Verilog
+
+Labs, problems, slides, notes and other materials for "Introduction to FPGA and Verilog" at MIPT DREC.
+
+Most likely, you need to read our [wiki](https://github.com/viktor-prutyanov/drec-fpga-intro/wiki).
