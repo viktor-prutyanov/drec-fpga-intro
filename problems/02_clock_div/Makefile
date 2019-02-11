@@ -1,11 +1,11 @@
-test: pset01
-	./pset01
+test: pset02
+	./pset02
 
-pset01: testbench.v clk_div.v
+pset02: testbench.v clk_div.v
 	iverilog $^ -o $@
 
 clean:
-	rm -f pset00
+	rm -f pset02
 
 help:
 	@echo "  test  - Run testbench"
