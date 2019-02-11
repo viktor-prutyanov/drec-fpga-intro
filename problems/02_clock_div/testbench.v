@@ -5,7 +5,7 @@
 *
 *   Viktor Prutyanov, 2019
 *
-*   Testbench for problem set #01
+*   Testbench for problem set #02
 */
 
 module testbench();
