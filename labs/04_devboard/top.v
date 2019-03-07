@@ -12,13 +12,10 @@
 module top(
     input CLK,
 
-    output DS_C,
-	 output DS_EN1, DS_EN2, DS_EN3, DS_EN4
+    output [0:0]LED
 );
 
-assign {DS_EN1, DS_EN2, DS_EN3, DS_EN4} = 4'b1111;
-
-blink_gen blink_gen(.clk(CLK), .clk2(DS_C));
+blink_gen blink_gen(.clk(CLK), .clk2(LED[0]));
 
 endmodule
 
