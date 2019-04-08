@@ -5,7 +5,10 @@ LD=$(RISCV_PREFIX)ld
 OBJCOPY=$(RISCV_PREFIX)objcopy
 OBJDUMP=$(RISCV_PREFIX)objdump
 
-all: addi.txt
+SRCS=$(wildcard *.s)
+TXTS=$(SRCS:%.s=%.txt)
+
+all: $(TXTS)
 
 %.txt: %.bin
 	hexdump -v -e '"%08x\n"' $^ > $@
