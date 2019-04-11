@@ -1,5 +1,5 @@
 module rom #(parameter ADDR_WIDTH = 3, parameter WIDTH = 32)(
-    input [2**ADDR_WIDTH - 1:0]addr,
+    input [ADDR_WIDTH - 1:0]addr,
     input clk,
     output reg [WIDTH - 1:0]q
 );
