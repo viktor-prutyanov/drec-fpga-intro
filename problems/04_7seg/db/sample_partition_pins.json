@@ -1,0 +1,41 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "DS_A",
+					"strict" : false
+				},
+				{
+					"name" : "DS_B",
+					"strict" : false
+				},
+				{
+					"name" : "DS_C",
+					"strict" : false
+				},
+				{
+					"name" : "DS_D",
+					"strict" : false
+				},
+				{
+					"name" : "DS_E",
+					"strict" : false
+				},
+				{
+					"name" : "DS_F",
+					"strict" : false
+				},
+				{
+					"name" : "DS_G",
+					"strict" : false
+				},
+				{
+					"name" : "CLK",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

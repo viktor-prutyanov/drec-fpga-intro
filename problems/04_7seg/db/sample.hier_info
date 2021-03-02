@@ -1,0 +1,73 @@
+|top
+CLK => CLK.IN1
+DS_EN1 << <GND>
+DS_EN2 << <VCC>
+DS_EN3 << <VCC>
+DS_EN4 << <VCC>
+DS_A << hex2seg:Hex2seg.seg
+DS_B << hex2seg:Hex2seg.seg
+DS_C << hex2seg:Hex2seg.seg
+DS_D << hex2seg:Hex2seg.seg
+DS_E << hex2seg:Hex2seg.seg
+DS_F << hex2seg:Hex2seg.seg
+DS_G << hex2seg:Hex2seg.seg
+
+
+|top|clkdiv:Clkdiv1
+clk => cnt[0].CLK
+clk => cnt[1].CLK
+clk => cnt[2].CLK
+clk => cnt[3].CLK
+clk => cnt[4].CLK
+clk => cnt[5].CLK
+clk => cnt[6].CLK
+clk => cnt[7].CLK
+clk => cnt[8].CLK
+clk => cnt[9].CLK
+clk => cnt[10].CLK
+clk => cnt[11].CLK
+clk => cnt[12].CLK
+clk => cnt[13].CLK
+clk => cnt[14].CLK
+clk => cnt[15].CLK
+clk => cnt[16].CLK
+clk => cnt[17].CLK
+clk => cnt[18].CLK
+clk => cnt[19].CLK
+clk => cnt[20].CLK
+clk => cnt[21].CLK
+clk => cnt[22].CLK
+clk => cnt[23].CLK
+clk => cnt[24].CLK
+clk => cnt[25].CLK
+clkdiv <= cnt[25].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|top|cnthex:Cnthex1
+clk => hex[0]~reg0.CLK
+clk => hex[1]~reg0.CLK
+clk => hex[2]~reg0.CLK
+clk => hex[3]~reg0.CLK
+hex[0] <= hex[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+hex[1] <= hex[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+hex[2] <= hex[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+hex[3] <= hex[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|top|hex2seg:Hex2seg
+hex[0] => Decoder0.IN3
+hex[1] => Decoder0.IN2
+hex[1] => Decoder1.IN2
+hex[2] => Decoder0.IN1
+hex[2] => Decoder1.IN1
+hex[3] => Decoder0.IN0
+hex[3] => Decoder1.IN0
+seg[0] <= Decoder1.DB_MAX_OUTPUT_PORT_TYPE
+seg[1] <= WideOr1.DB_MAX_OUTPUT_PORT_TYPE
+seg[2] <= WideOr0.DB_MAX_OUTPUT_PORT_TYPE
+seg[3] <= seg.DB_MAX_OUTPUT_PORT_TYPE
+seg[4] <= Decoder0.DB_MAX_OUTPUT_PORT_TYPE
+seg[5] <= Decoder0.DB_MAX_OUTPUT_PORT_TYPE
+seg[6] <= seg.DB_MAX_OUTPUT_PORT_TYPE
+
+

@@ -1,0 +1,17 @@
+/*
+*   Introduction to FPGA and Verilog
+*
+*   Viktor Prutyanov, 2019
+*
+*   LED blinking
+*/
+
+/*
+*   Top-level module
+*/
+module top(
+    input CLK
+);
+
+
+endmodule
