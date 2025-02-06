@@ -1,6 +1,6 @@
 # Icarus Verilog и GTKWave
 
-Программа Icarus Verilog это самое простое средство для симуляции Verilog-кода.
+Программа Icarus Verilog это простое средство для симуляции Verilog-кода.
 
 Эта страница является кратким руководством по установке и использованию программ Icarus Verilog и GTKwave.
 
@@ -13,15 +13,15 @@
 ### Ubuntu / Linux Mint
 
 ```
-  sudo apt install iverilog
-  sudo apt install gtkwave
+sudo apt install iverilog
+sudo apt install gtkwave
 ```
 
 ### Fedora
 
 ```
-  sudo yum install iverilog
-  sudo yum install gtkwave
+sudo yum install iverilog
+sudo yum install gtkwave
 ```
 
 Предположим, что у нас есть файл с кодом `dummy.v` со следующим содержанием:
@@ -43,23 +43,22 @@ endmodule
 ## Компиляция кода
 
 ```
-  iverilog dummy.v -o dummy
+iverilog dummy.v -o dummy
 ```
 
 ## Запуск симуляции в Icarus Verilog
 
 ```
-  vvp dummy
+vvp dummy
 ```
 или
 ```
-  ./dummy
+./dummy
 ```
 
 ```
-  ./dummy 
-  VCD info: dumpfile dump.vcd opened for output.
-  Hello, World!
+VCD info: dumpfile dump.vcd opened for output.
+Hello, World!
 ```
 
 ## Открытие дампа с сигналами в GTKWave
