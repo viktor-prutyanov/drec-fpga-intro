@@ -4,7 +4,7 @@
 
 | #   | Слайды | Примеры | Руководства | Задания |
 |:---:| -------| ------- | ----------- | ------- |
-| 1   | [Вводная лекция](https://docs.google.com/presentation/d/1TqlFGqrBzD166VZrZCWKFIKIriF4yPpPZ9JoIRr6bsQ) | [00_inv](https://github.com/viktor-prutyanov/drec-fpga-intro/examples/2025/00_inv) | [Icarus Verilog](./2025/00_icarus.md)   | См. слайды |
+| 1   | [Вводная лекция](https://docs.google.com/presentation/d/1TqlFGqrBzD166VZrZCWKFIKIriF4yPpPZ9JoIRr6bsQ) | [00_inv](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2025/00_inv) | [Icarus Verilog](./2025/00_icarus.md)   | См. слайды |
 | 2.1 | [Комбинационная логика](https://docs.google.com/presentation/d/1SRWW4OXgNHcIN5JQXkJ2pnRrEnh4AqmwCOXpr1bb-u4)  | | | См. слайды |
 | 2.2 | [Вычисления с плавающей точкой](https://docs.google.com/presentation/d/1fE9bVMfvQbaPWVOoztV1VZW1FPAAsZQbV8X-apcAPBk) | | | См. слайды |
 | 3   | [Последовательностная логика](https://docs.google.com/presentation/d/17AkWxNowVI5ReDU2E5dFpsEf1z1eiVMFoMP2PQ6a8Aw) | | | См. слайды |
