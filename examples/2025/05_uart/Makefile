@@ -25,4 +25,4 @@ clean:
 	rm -rf sim dump.vcd
 	rm -rf db incremental_db output fpga.qws *.bak
 
-.PHONY: syn fpga clean samples gui sim waves drc
+.PHONY: syn fpga clean gui sim waves drc
