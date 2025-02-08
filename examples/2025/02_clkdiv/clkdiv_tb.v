@@ -6,11 +6,12 @@ reg clk   = 1'b0;
 reg rst_n = 1'b0;
 
 always begin
-    #1 clk = ~clk; /* Toggle clock every 1ns */
+    #1 clk <= ~clk;
 end
 
 initial begin
-    #5 rst_n = 1'b1; /* Reset after 5ns */
+    repeat (3) @(posedge clk);
+    rst_n <= 1'b1;
 end
 
 wire clkdiv_out;
