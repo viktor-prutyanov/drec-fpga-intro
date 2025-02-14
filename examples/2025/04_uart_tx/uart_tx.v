@@ -24,8 +24,9 @@ reg dout;
 // FSM
 reg [3:0] state, next_state;
 
-localparam [3:0] STOP  = {1'b0, 3'd0},
+localparam [3:0] IDLE  = {1'b0, 3'd0},
                  START = {1'b0, 3'd1},
+                 STOP  = {1'b0, 3'd2},
                  BIT0  = {1'b1, 3'd0},
                  BIT1  = {1'b1, 3'd1},
                  BIT2  = {1'b1, 3'd2},
@@ -57,14 +58,14 @@ end
 
 always @(posedge clk or negedge rst_n) begin
     if (!rst_n)
-        state <= STOP;
+        state <= IDLE;
     else
         state <= next_state;
 end
 
 always @(*) begin
     case (state)
-        STOP:    next_state = i_start ? START : state;
+        IDLE:    next_state = i_start ? START : state;
         START:   next_state = en      ? BIT0  : state;
         BIT0:    next_state = en      ? BIT1  : state;
         BIT1:    next_state = en      ? BIT2  : state;
@@ -74,16 +75,20 @@ always @(*) begin
         BIT5:    next_state = en      ? BIT6  : state;
         BIT6:    next_state = en      ? BIT7  : state;
         BIT7:    next_state = en      ? STOP  : state;
+        STOP:    next_state = en      ? IDLE  : state;
         default: next_state = state;
     endcase
 end
 
 always @(*) begin
     case (state)
+        IDLE,
         STOP:    o_tx = 1'b1;
         START:   o_tx = 1'b0;
         default: o_tx = dout;
     endcase
 end
+
+
 
 endmodule
