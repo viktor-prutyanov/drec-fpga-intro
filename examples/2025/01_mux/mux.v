@@ -3,7 +3,7 @@ module mux #(
 )(
     input  wire [WIDTH-1:0] i0, i1,
     input  wire             sel,
-    output wire [WIDTH-1:0] out
+    output reg  [WIDTH-1:0] out
 );
 
 always @(*) begin
@@ -14,7 +14,7 @@ always @(*) begin
 end
 
 /*
-assign out = sel ? i1 : i0;
+assign out = sel ? i1 : i0; // Signal 'out' must be wire!
 */
 
 /*
