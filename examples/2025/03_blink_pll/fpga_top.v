@@ -10,7 +10,7 @@ wire clk_1MHz;
 
 assign LED[11:1] = {11{1'b1}};
 
-always @(posedge CLK) begin
+always @(posedge clk_1MHz) begin
     rst_n <= RSTN_d;
     RSTN_d <= RSTN;
 end
