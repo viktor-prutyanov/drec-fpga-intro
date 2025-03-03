@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module testbench;
+module tb;
 
 reg clk   = 1'b0;
 reg rst_n = 1'b0;
@@ -14,28 +14,29 @@ initial begin
     rst_n <= 1'b1;
 end
 
-reg i_start = 1'b0;
+reg i_vld = 1'b0;
 reg [7:0] i_data;
+wire o_tx;
 
 uart_tx #(
     .FREQ(1_000_000),
-    .RATE(    9_600)
+    .RATE(  115_200)
 )
-u_uart_tx (
-    .clk        (clk),
-    .rst_n      (rst_n),
-    .i_data     (i_data),
-    .i_start    (i_start),
-    .o_tx       (o_tx)
+uart_tx (
+    .clk        (clk    ),
+    .rst_n      (rst_n  ),
+    .i_data     (i_data ),
+    .i_vld      (i_vld  ),
+    .o_tx       (o_tx   )
 );
 
 initial begin
-    repeat (1000) @(posedge clk);
-    i_data  <= 7'h6A;
-    i_start <= 1'b1;
+    repeat (100) @(posedge clk);
+    i_data <= 7'h6A;
+    i_vld  <= 1'b1;
     @(posedge clk);
-    i_data  <= 7'hXX;
-    i_start <= 1'b0;
+    i_data <= 7'hXX;
+    i_vld  <= 1'b0;
 end
 
 initial begin
