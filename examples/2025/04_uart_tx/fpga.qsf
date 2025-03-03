@@ -45,6 +45,7 @@ set_global_assignment -name LAST_QUARTUS_VERSION "23.1std.1 Lite Edition"
 set_global_assignment -name SDC_FILE fpga.sdc
 set_global_assignment -name VERILOG_FILE fpga_top.v
 set_global_assignment -name VERILOG_FILE uart_tx.v
+set_global_assignment -name VERILOG_FILE counter.v
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 
 # Pin & Location Assignments
@@ -53,6 +54,16 @@ set_location_assignment PIN_V1 -to RXD
 set_location_assignment PIN_U1 -to TXD
 set_location_assignment PIN_T22 -to CLK
 set_location_assignment PIN_U20 -to RSTN
+set_location_assignment PIN_V22 -to LED[11]
+set_location_assignment PIN_V21 -to LED[10]
+set_location_assignment PIN_W22 -to LED[9]
+set_location_assignment PIN_W21 -to LED[8]
+set_location_assignment PIN_Y22 -to LED[7]
+set_location_assignment PIN_AA21 -to LED[6]
+set_location_assignment PIN_AB20 -to LED[5]
+set_location_assignment PIN_AA20 -to LED[4]
+set_location_assignment PIN_AA17 -to LED[3]
+set_location_assignment PIN_Y17 -to LED[2]
 set_location_assignment PIN_W17 -to LED[1]
 set_location_assignment PIN_AB16 -to LED[0]
 

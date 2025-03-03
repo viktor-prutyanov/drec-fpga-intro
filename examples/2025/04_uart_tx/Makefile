@@ -1,6 +1,6 @@
 TB_LIST := uart_tx_tb.v
 
-RTL_LIST := fpga_top.v uart_tx.v
+RTL_LIST := uart_tx.v counter.v
 
 sim: $(TB_LIST) $(RTL_LIST)
 	iverilog $^ -o sim

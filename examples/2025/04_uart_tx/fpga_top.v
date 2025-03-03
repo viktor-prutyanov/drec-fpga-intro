@@ -4,11 +4,16 @@ module fpga_top(
 
     input  wire RXD,
     output wire TXD,
-    output wire [1:0] LED
+    output wire [11:0] LED
 );
 
-assign LED = {TXD, RXD};
+localparam RATE = 2_000_000;
 
+assign LED[0] = RXD;
+assign LED[4] = TXD;
+assign {LED[11:5], LED[3:1]}  = ~10'b0;
+
+// RSTN synchronizer
 reg rst_n, RSTN_d;
 
 always @(posedge CLK) begin
@@ -25,17 +30,17 @@ always @(posedge CLK or negedge rst_n) begin
         cnt <= cnt + 1'b1;
 end
 
-wire [7:0] tx_data  = 8'h30 + cnt[25:22];
-wire       tx_start = (cnt[21:0] == 22'b1);
+wire [7:0] tx_data  = 8'h30 + cnt[15:12];
+wire       tx_start = (cnt[11:0] == 12'b1);
 
 uart_tx #(
     .FREQ       (50_000_000),
-    .RATE       (   115_200)
+    .RATE       (      RATE)
 ) u_uart_tx (
     .clk        (CLK       ),
     .rst_n      (rst_n     ),
     .i_data     (tx_data   ),
-    .i_start    (tx_start  ),
+    .i_vld      (tx_start  ),
     .o_tx       (TXD       )
 );
 
