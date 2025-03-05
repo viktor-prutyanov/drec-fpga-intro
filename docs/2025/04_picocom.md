@@ -32,6 +32,8 @@ lsusb -d 1a86:
 sudo picocom -b 2000000 /dev/ttyUSB0
 ```
 
+Для выхода используется комбинация `[C-a] [C-x]`.
+
 ## Пример использования
 
-[![asciicast](https://asciinema.org/a/706692.svg)](https://asciinema.org/a/706692)
+[![asciicast](https://asciinema.org/a/706694.svg)](https://asciinema.org/a/706694)
