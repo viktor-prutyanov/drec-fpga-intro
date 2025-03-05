@@ -30,8 +30,8 @@ always @(posedge CLK or negedge rst_n) begin
         cnt <= cnt + 1'b1;
 end
 
-wire [7:0] tx_data  = 8'h30 + cnt[15:12];
-wire       tx_start = (cnt[11:0] == 12'b1);
+wire [7:0] tx_data  = 8'h30 + cnt[23:20];
+wire       tx_start = (cnt[19:0] == 20'b1);
 
 uart_tx #(
     .FREQ       (50_000_000),
