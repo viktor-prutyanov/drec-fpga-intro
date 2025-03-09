@@ -5,6 +5,7 @@ LD=$(RISCV_PREFIX)ld
 CC=$(RISCV_PREFIX)gcc
 OBJCOPY=$(RISCV_PREFIX)objcopy
 OBJDUMP=$(RISCV_PREFIX)objdump
+READELF=$(RISCV_PREFIX)readelf
 FUNCSIM=whisper
 
 S_SRCS=$(wildcard *.s)
@@ -35,7 +36,7 @@ loader.o: loader/loader.s
 	$(OBJDUMP) -d --visualize-jumps -M no-aliases $@
 
 %.out.log: %.out .FORCE
-	$(FUNCSIM) -e 0x`riscv64-unknown-elf-readelf -s $< | grep _finish | awk '{ print $$2 }'` -l $< | tee $@
+	$(FUNCSIM) -e 0x`$(READELF) -s $< | grep _finish | awk '{ print $$2 }'` -l $< | tee $@
 
 .FORCE:
 
