@@ -1,4 +1,4 @@
-RISCV_PREFIX=riscv64-unknown-elf-
+RISCV_PREFIX ?= riscv64-unknown-elf-
 
 AS=$(RISCV_PREFIX)as
 LD=$(RISCV_PREFIX)ld
