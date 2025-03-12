@@ -2,8 +2,6 @@
 
 module cpu_top_tb;
 
-localparam PC_OFFSET = 32'h0;
-
 reg clk   = 1'b0;
 reg rst_n = 1'b0;
 
@@ -22,8 +20,6 @@ wire [31:0] o_mmio_data;
 wire  [3:0] o_mmio_mask;
 wire        o_mmio_wren;
 wire [31:0] i_mmio_data = 32'bX;
-
-wire [31:0] ip = PC_OFFSET + {cpu_top.core.pc, 2'b0};
 
 cpu_top cpu_top(
     .clk            (clk        ),
