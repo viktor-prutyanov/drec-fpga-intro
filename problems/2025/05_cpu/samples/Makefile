@@ -20,19 +20,19 @@ all: $(S_TXTS) $(C_TXTS)
 	python3 nop_pad.py $@
 
 %.bin: %.out
-	$(OBJCOPY) -O binary $^ $@
+	$(OBJCOPY) -j .text -O binary $^ $@
 
 %.out: %.s
 	$(AS) -march=rv32i -mabi=ilp32 -c $^ -o $^.o
-	$(LD) -melf32lriscv -Map=$^.map $^.o -o $@
+	$(LD) -melf32lriscv -Map=$@.map -T common/riscv.ld $^.o -o $@
 	$(OBJDUMP) -d --visualize-jumps -M no-aliases $@
 
-loader.o: loader/loader.s
-	$(AS) -march=rv32i -mabi=ilp32 -c loader/loader.s -o loader.o
+loader.o: common/loader.s
+	$(AS) -march=rv32i -mabi=ilp32 -c common/loader.s -o loader.o
 
 %.out: %.c loader.o
-	$(CC) -nostdlib -march=rv32i -mabi=ilp32 -c $< -o $<.o
-	$(LD) -melf32lriscv loader.o $<.o -o $@
+	$(CC) -nostdlib -march=rv32i -mabi=ilp32 -fPIC -c $< -o $<.o
+	$(LD) -melf32lriscv -Map=$@.map -T common/riscv.ld loader.o $<.o -o $@
 	$(OBJDUMP) -d --visualize-jumps -M no-aliases $@
 
 %.out.log: %.out .FORCE

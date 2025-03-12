@@ -2,7 +2,7 @@
 .globl _start
 .globl _finish
 
-_start:  
+_start:
     li      a0, 0
     li      a1, 845
     li      t4, 1
@@ -12,7 +12,7 @@ _sqrt:
     lui     t0, 0x40000
     mv      t1, zero
 
-_loop0:     
+_loop0:
     or      t2, t1, t0
     srl     t1, t1, t4
     sltu    t3, a1, t2
@@ -20,7 +20,7 @@ _loop0:
     sub     a1, a1, t2
     or      t1, t1, t0
 
-_l1:     
+_l1:
     srl     t0, t0, t5
     bnez    t0, _loop0
     mv      a0, t1
@@ -28,3 +28,4 @@ _l1:
 
 _finish:
     beqz    zero,  _finish
+
