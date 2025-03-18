@@ -2,11 +2,11 @@ TOP_TB_NAME := tb
 
 TB_LIST := fpga_top_tb.v
 
-RTL_LIST := 	\
-	fpga_top.v	\
-	uart_tx.v	\
-	counter.v	\
-	rom1r_wrap.v\
+RTL_LIST :=     	\
+    fpga_top.v  	\
+    uart_tx.v   	\
+    counter.v   	\
+    rom1r_wrap.v	\
 
 ifeq ($(GUI), 1)
 VSIM_FLAGS :=
@@ -14,28 +14,35 @@ else
 VSIM_FLAGS := -c
 endif
 
-VSIM_DIR := simulation/questa
+ifeq ($(FULL),1)
+ifeq ($(GATE), 1)
+VSIM_DIR   	:= simulation/questa
+VCD_FILE   	:= $(VSIM_DIR)/fpga.vcd
+VSIM_FLAGS 	+= -do fpga_run_msim_gate_verilog.do
+else
+VSIM_DIR   	:= simulation/questa
+VCD_FILE   	:= $(VSIM_DIR)/dump.vcd
+VSIM_FLAGS 	+= -do fpga_run_msim_rtl_verilog.do
+endif
+else
+VCD_FILE 	:= dump.vcd
+VSIM_FLAGS 	+= -do 'run -all'
+endif
 
 sim: $(TB_LIST) $(RTL_LIST)
 	iverilog -s $(TOP_TB_NAME) $^ -o sim
 	./sim
 
-ifeq ($(FULL),1)
-ifeq ($(RTL),1)
-vsim: $(TB_LIST) $(RTL_LIST) $(VSIM_DIR)/fpga_run_msim_rtl_verilog.do
-	env -C $(VSIM_DIR) vsim $(VSIM_FLAGS) -do fpga_run_msim_rtl_verilog.do
-else ifeq ($(GATE), 1)
-vsim: $(TB_LIST) $(VSIM_DIR)/fpga.vo $(VSIM_DIR)/fpga_v.sdo $(VSIM_DIR)/fpga_run_msim_gate_verilog.do
-	env -C $(VSIM_DIR) vsim $(VSIM_FLAGS) -do fpga_run_msim_gate_verilog.do
-endif
-else
 vsim: $(TB_LIST) $(RTL_LIST)
+ifeq ($(FULL),1)
+	env -C $(VSIM_DIR) vsim $(VSIM_FLAGS) 
+else
 	vlog $^ altera/*.v
-	vsim $(VSIM_FLAGS) work.$(TOP_TB_NAME) -L altera_mf_ver -do 'run -all'
+	vsim work.$(TOP_TB_NAME) $(VSIM_FLAGS) -L altera_mf_ver
 endif
 
-waves: dump.vcd
-	gtkwave dump.vcd &
+waves: $(VCD_FILE)
+	gtkwave $(VCD_FILE) &
 
 syn:
 	quartus_sh --flow compile fpga
