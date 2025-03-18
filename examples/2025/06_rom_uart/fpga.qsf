@@ -47,6 +47,7 @@ set_global_assignment -name SDC_FILE fpga.sdc
 set_global_assignment -name VERILOG_FILE fpga_top.v
 set_global_assignment -name VERILOG_FILE uart_tx.v
 set_global_assignment -name VERILOG_FILE counter.v
+set_global_assignment -name VERILOG_FILE rom1r_wrap.v
 set_global_assignment -name QIP_FILE altera/rom1r.qip
 
 # Pin & Location Assignments

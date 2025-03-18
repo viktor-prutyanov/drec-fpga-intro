@@ -6,6 +6,7 @@ RTL_LIST := 	\
 	fpga_top.v	\
 	uart_tx.v	\
 	counter.v	\
+	rom1r_wrap.v\
 
 ifeq ($(GUI), 1)
 VSIM_FLAGS :=
@@ -13,17 +14,19 @@ else
 VSIM_FLAGS := -c
 endif
 
+VSIM_DIR := simulation/questa
+
 sim: $(TB_LIST) $(RTL_LIST)
 	iverilog -s $(TOP_TB_NAME) $^ -o sim
 	./sim
 
 ifeq ($(FULL),1)
 ifeq ($(RTL),1)
-vsim: $(TB_LIST) $(RTL_LIST) simulation/questa/fpga_run_msim_rtl_verilog.do
-	env -C simulation/questa vsim $(VSIM_FLAGS) -do fpga_run_msim_rtl_verilog.do
+vsim: $(TB_LIST) $(RTL_LIST) $(VSIM_DIR)/fpga_run_msim_rtl_verilog.do
+	env -C $(VSIM_DIR) vsim $(VSIM_FLAGS) -do fpga_run_msim_rtl_verilog.do
 else ifeq ($(GATE), 1)
-vsim: $(TB_LIST) simulation/questa/fpga.vo simulation/questa/fpga_v.sdo simulation/questa/fpga_run_msim_gate_verilog.do
-	env -C simulation/questa vsim $(VSIM_FLAGS) -do fpga_run_msim_gate_verilog.do
+vsim: $(TB_LIST) $(VSIM_DIR)/fpga.vo $(VSIM_DIR)/fpga_v.sdo $(VSIM_DIR)/fpga_run_msim_gate_verilog.do
+	env -C $(VSIM_DIR) vsim $(VSIM_FLAGS) -do fpga_run_msim_gate_verilog.do
 endif
 else
 vsim: $(TB_LIST) $(RTL_LIST)
@@ -46,7 +49,7 @@ fpga:
 drc:
 	quartus_drc fpga
 
-pow: simulation/questa/fpga.vcd
+pow: $(VSIM_DIR)/fpga.vcd
 	quartus_pow fpga
 
 clean:

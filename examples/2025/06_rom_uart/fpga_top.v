@@ -39,7 +39,7 @@ uart_tx #(
     .o_tx       (TXD       )
 );
 
-rom1r u_rom (
+rom1r_wrap rom_wrap (
 	.address        (rom_addr  ),
 	.clock          (CLK       ),
 	.q              (tx_data   )
