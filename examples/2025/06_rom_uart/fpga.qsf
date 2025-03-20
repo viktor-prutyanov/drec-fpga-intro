@@ -78,14 +78,6 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
 # ==============================
 set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (Verilog)"
 
-# Power Estimation Assignments
-# ============================
-set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "NO HEAT SINK WITH STILL AIR"
-set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name POWER_USE_INPUT_FILES ON
-set_global_assignment -name POWER_DEFAULT_INPUT_IO_TOGGLE_RATE 12.5%
-set_global_assignment -name POWER_REPORT_SIGNAL_ACTIVITY ON
-
 # start EDA_TEST_BENCH_SETTINGS(fpga_top_tb)
 # ------------------------------------------
 
@@ -109,7 +101,6 @@ set_global_assignment -name POWER_REPORT_SIGNAL_ACTIVITY ON
 	set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH fpga_top_tb -section_id eda_simulation
 	set_global_assignment -name EDA_TEST_BENCH_NAME fpga_top_tb -section_id eda_simulation
 	set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_simulation
-	set_global_assignment -name EDA_WRITE_NODES_FOR_POWER_ESTIMATION ALL_NODES -section_id eda_simulation
 	set_global_assignment -name EDA_TEST_BENCH_DESIGN_INSTANCE_NAME fpga_top -section_id eda_simulation
 	set_global_assignment -name EDA_GENERATE_RTL_SIMULATION_COMMAND_SCRIPT ON -section_id eda_simulation
 	set_global_assignment -name EDA_GENERATE_GATE_LEVEL_SIMULATION_COMMAND_SCRIPT ON -section_id eda_simulation
@@ -119,10 +110,6 @@ set_global_assignment -name POWER_REPORT_SIGNAL_ACTIVITY ON
 
 # ----------------------
 # start ENTITY(fpga_top)
-
-	# Power Estimation Assignments
-	# ============================
-	set_instance_assignment -name POWER_READ_INPUT_FILE fpga.vcd -to fpga_top
 
 	# start DESIGN_PARTITION(Top)
 	# ---------------------------
@@ -135,16 +122,6 @@ set_global_assignment -name POWER_REPORT_SIGNAL_ACTIVITY ON
 
 	# end DESIGN_PARTITION(Top)
 	# -------------------------
-
-	# start POWER_INPUT_FILE_SETTINGS(fpga.vcd)
-	# -----------------------------------------
-
-		# Power Estimation Assignments
-		# ============================
-		set_global_assignment -name POWER_INPUT_FILE_NAME simulation/questa/fpga.vcd -section_id fpga.vcd
-
-	# end POWER_INPUT_FILE_SETTINGS(fpga.vcd)
-	# ---------------------------------------
 
 # end ENTITY(fpga_top)
 # --------------------
