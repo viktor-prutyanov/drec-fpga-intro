@@ -42,29 +42,39 @@ endif
 
 ifeq ($(GATE), 1)
 VSIM_DIR   	:= simulation/questa
-VCD_FILE   	:= $(VSIM_DIR)/fpga.vcd
-VSIM_SCRIPT := fpga_run_msim_gate_verilog.do
-VSIM_FLAGS 	+= -do $(VSIM_SCRIPT)
-else ifeq ($(GATE), 0)
-VSIM_DIR   	:= simulation/questa
 VCD_FILE   	:= $(VSIM_DIR)/dump.vcd
-VSIM_SCRIPT := fpga_run_msim_rtl_verilog.do
-VSIM_FLAGS 	+= -do $(VSIM_SCRIPT)
+VSIM_FLAGS 	+= +transport_int_delays +transport_path_delays
 else
 VCD_FILE 	:= dump.vcd
-VSIM_FLAGS 	+= -do 'run -all'
 endif
 
+VSIM_FLAGS += -do 'run -all'
+
+VSIM_LIBS :=            \
+    altera_ver          \
+    lpm_ver             \
+    sgate_ver           \
+    altera_mf_ver       \
+    altera_lnsim_ver    \
+    cycloneive_ver      \
+
+VSIM_LIBS := $(patsubst %,-L %,$(VSIM_LIBS))
+
 sim: $(TB_LIST) $(RTL_LIST)
+ifeq ($(GATE), 1)
+	$(error Icarus Verilog doesn't support GLS)
+else
 	iverilog -s $(TOP_TB_NAME) -I./src/ $^ -o sim
 	./sim
+endif
 
 vsim: $(TB_LIST) $(RTL_LIST)
-ifdef GATE
-	env -C $(VSIM_DIR) vsim $(VSIM_FLAGS)
+ifeq ($(GATE), 1)
+	env -C $(VSIM_DIR) vlog $(realpath $(TB_LIST)) fpga.vo
+	env -C $(VSIM_DIR) vsim work.$(TOP_TB_NAME) $(VSIM_FLAGS) $(VSIM_LIBS)
 else
 	vlog $^ src/altera/*.v
-	vsim work.$(TOP_TB_NAME) $(VSIM_FLAGS) -L altera_mf_ver
+	vsim work.$(TOP_TB_NAME) $(VSIM_FLAGS) $(VSIM_LIBS)
 endif
 
 waves: $(VCD_FILE)
@@ -81,9 +91,6 @@ fpga:
 
 drc:
 	quartus_drc fpga
-
-pow: $(VSIM_DIR)/fpga.vcd
-	quartus_pow fpga
 
 samples:
 	$(MAKE) -C samples/
