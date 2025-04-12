@@ -18,5 +18,5 @@ title: "Введение в проектирование на языке Verilog
 | 6   | [Статическая память в ASIC и FPGA](https://docs.google.com/presentation/d/1DNowWy1SIPpJVkfS6wp8t7eBN-dr_eeC-qLX874_528) | [06_rom_uart](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2025/06_rom_uart) | [SignalTap](./2025/06_signaltap.pdf) | [06_cpu](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/06_cpu) |
 | 7a  | [STA](https://docs.google.com/presentation/d/1nQJHFMpifjf3aeh6Gmv8Kv0xSePEFb2WC7qlDLivjYU) | - | - | - |
 | 7b  | [Конвейерные вычисления](https://docs.google.com/presentation/d/10LPWZqqwGkNW45AFo-a64QdzvaN9OXWRo5L_dI8OWbE) | - | - | [07_fp16pipe](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/07_fp16pipe) |
-| 8   | [RISC-V: 2-стадийная реализация](https://docs.google.com/presentation/d/1viiUbddl-3-mMLHUyqRT4Qwg-TDqU6svTKQP5wMri3Y) | - | - | 08_cpu |
-| 9   | | - | - | 09_cpu |
+| 8   | [RISC-V: 2-стадийная реализация](https://docs.google.com/presentation/d/1viiUbddl-3-mMLHUyqRT4Qwg-TDqU6svTKQP5wMri3Y) | - | - | [08_cpu](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/08_cpu) |
+| 9   | [RISC-V: 3-стадийная реализация](https://docs.google.com/presentation/d/1QbmjNIb4kOxNY0MI4AXhF-Dj0UDitCWxHmHr5LqA0AE) | - | - | [09_cpu](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/09_cpu) |
