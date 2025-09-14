@@ -26,3 +26,6 @@ title: "Список материалов"
 | #   | Слайды | Примеры | Руководства | Задания |
 |:---:| ------ | ------- | ----------- | ------- |
 | 0   | [Вводная лекция](https://docs.google.com/presentation/d/1mP-TNxQqpTpLkNQvJT76EnDv9aG5tzx0p_pcESyRpIo) | - | - | - |
+| 1a  | [SystemVerilog (ч.1)](https://docs.google.com/presentation/d/1WW6jrEPX8b1EH6NTLpnnro9-EQV8kLnHr6WuiDTPK9A) | [02_dpi](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2026/02_dpi) | - | - |
+| 1b  |  | - | - |   |
+
