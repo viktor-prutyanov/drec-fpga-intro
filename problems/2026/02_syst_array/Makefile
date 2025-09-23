@@ -4,6 +4,7 @@ TB_LIST := src/sa_dummy_tb.sv
 
 RTL_LIST :=  \
 	src/pe.sv \
+	src/sr.sv \
 	src/sa_core.sv \
 	src/sa_top.sv \
 	src/delay_line.sv \
@@ -23,6 +24,9 @@ vsim: $(TB_LIST) $(RTL_LIST)
 verilator: $(TB_LIST) $(RTL_LIST)
 	verilator --binary -Wno-fatal $^
 	./obj_dir/V$(TOP_TB_NAME)
+
+lint: $(RTL_LIST) 
+	verilator --lint-only $^
 
 clean:
 	rm -rf transcript work obj_dir
