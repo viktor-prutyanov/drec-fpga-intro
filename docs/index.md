@@ -29,3 +29,5 @@ title: "Список материалов"
 | 2a  | [SystemVerilog (ч.1)](https://docs.google.com/presentation/d/1WW6jrEPX8b1EH6NTLpnnro9-EQV8kLnHr6WuiDTPK9A) | [02_dpi](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2026/02_dpi) | - | - |
 | 2b  | [Систолический массив](https://docs.google.com/presentation/d/18jo_C5YGQSz22qVKPTkTkqtv1m0k9GBK6ZInayUCPNo) | - | - | [02_syst_arr](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2026/02_syst_array) |
 | 3   | [Управление потоком данных](https://docs.google.com/presentation/d/15Mm1tPsrxTHChPXZI256K9UP2yKIfLz0ZGow44vn9MQ) | - | - | [03_syst_arr](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2026/03_syst_array) |
+| 4a  | AXI-Stream | [04_axis](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2026/04_axis) | - | 04_axis_fifo |
+| 4b  | cocotb | [04_cocotb](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2026/04_cocotb) | - | 04_axis_fifo_tb <br> 04_syst_arr_tb |

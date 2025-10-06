@@ -1,16 +1,15 @@
-SIM ?= verilator
+SIM ?= verilator # Симулятор
 
 TOPLEVEL_LANG = verilog
 
 VERILOG_SOURCES += \
-	src/counter.sv
+	src/counter.sv    # Список HDL-файлов
 
-COCOTB_TOPLEVEL = counter
+TOPLEVEL = counter	  # Тестируемый модуль
+MODULE   = counter_tb # Тестбенч
 
-COCOTB_TEST_MODULES = counter_tb
-
-ifeq ($(SIM), verilator)
+ifeq ($(SIM), verilator) # Сохранение всех сигналов в .fst файл
 	EXTRA_ARGS += --trace --trace-fst --trace-structs
 endif
 
-include $(shell cocotb-config --makefiles)/Makefile.sim
+include $(shell cocotb-config --makefiles)/Makefile.sim # Makefile из cocotb
