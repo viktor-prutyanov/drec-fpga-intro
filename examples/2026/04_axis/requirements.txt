@@ -1,2 +1,3 @@
 cocotb~=1.9
+cocotbext-axi
 pytest
