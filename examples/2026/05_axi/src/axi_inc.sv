@@ -52,12 +52,12 @@ assign m_axi_bready = 1'b1;
 assign m_axi_awburst = 2'd1; // INCR burst
 assign m_axi_awlen   = 8'd3; // 4 beats per burst
 assign m_axi_awsize  = 3'd1; // 16 bytes per beat
-assign m_axi_awprot  = 3'h0; // Data, Non-Secure, Unprivileged
+assign m_axi_awprot  = 3'h0; // Data, Secure, Unprivileged
 
 assign m_axi_arburst = 2'd1; // INCR burst
 assign m_axi_arlen   = 8'd3; // 4 beats per burst
 assign m_axi_arsize  = 3'd1; // 16 bytes per beat
-assign m_axi_arprot  = 3'h0; // Data, Non-Secure, Unprivileged
+assign m_axi_arprot  = 3'h0; // Data, Secure, Unprivileged
 
 inc #(
     .DATA_WIDTH(DATA_WIDTH),
