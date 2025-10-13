@@ -25,13 +25,10 @@ class TB:
             size = 8 * 2**10
         )
 
-        self.clock = Clock(dut.clk, 1, units="ns")
-
-        cocotb.start_soon(self.clock.start())
+        cocotb.start_soon(Clock(dut.clk, 1, units="ns").start())
     
     async def reset(self):
         self.dut.rst_n.setimmediatevalue(0)
-        await RisingEdge(self.dut.clk)
         await RisingEdge(self.dut.clk)
         self.dut.rst_n.value = 1
         await RisingEdge(self.dut.clk)

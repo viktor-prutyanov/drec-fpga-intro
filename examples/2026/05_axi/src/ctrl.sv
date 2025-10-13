@@ -32,7 +32,7 @@ assign wr_addr_fire = o_wr_addr_vld && i_wr_addr_rdy;
 assign o_rd_addr = RD_BASE_ADDR + (ADDR_WIDTH'(rd_addr_cnt) << CNT_SHIFT);
 assign o_wr_addr = WR_BASE_ADDR + (ADDR_WIDTH'(wr_addr_cnt) << CNT_SHIFT);
 
-always_ff @(posedge clk or negedge rst_n) begin
+always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         o_wr_addr_vld <= 1'b0;
         o_rd_addr_vld <= 1'b0;
@@ -44,7 +44,7 @@ always_ff @(posedge clk or negedge rst_n) begin
     end
 end
 
-always_ff @(posedge clk or negedge rst_n) begin
+always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         rd_addr_cnt <= '0;
         wr_addr_cnt <= '0;
