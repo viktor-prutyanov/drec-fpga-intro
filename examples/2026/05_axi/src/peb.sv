@@ -18,7 +18,7 @@ logic full;
 assign o_vld = full;
 assign o_rdy = !full || i_rdy;
 
-always_ff @(posedge clk, negedge rst_n) begin
+always @(posedge clk, negedge rst_n) begin
     if (!rst_n)
         full <= 1'b0;
     else begin
@@ -29,7 +29,7 @@ always_ff @(posedge clk, negedge rst_n) begin
     end
 end
 
-always_ff @(posedge clk) begin
+always @(posedge clk) begin
     if (!full || i_rdy)
         o_data <= i_data;
 end
