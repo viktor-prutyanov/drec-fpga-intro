@@ -1,6 +1,6 @@
 module ctrl #(
     parameter ADDR_WIDTH = 32,
-    parameter CNT_WIDTH  = 6,
+    parameter CNT_WIDTH  = 4,
     parameter CNT_SHIFT  = 2,
     parameter RD_BASE_ADDR = 32'h0,
     parameter WR_BASE_ADDR = 32'h1000
