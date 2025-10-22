@@ -40,6 +40,7 @@ assign s_axil_awready = idle && s_axil_wvalid;
 assign s_axil_wready  = idle && s_axil_awvalid;
 
 assign s_axil_bresp = (en_d ? reg_wr_okay : okay) ? AXI_OKAY : AXI_SLVERR;
+assign s_axil_bvalid = !idle;
 
 assign reg_wr_addr = s_axil_awaddr;
 assign reg_wr_data = s_axil_wdata;
