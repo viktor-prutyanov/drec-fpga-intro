@@ -1,0 +1,201 @@
+From 5dad6655cb236a655b7ef5115b345dbe10f1de22 Mon Sep 17 00:00:00 2001
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Date: Sun, 2 Nov 2025 17:19:33 +0300
+Subject: [PATCH] hw/misc: Add inc-dev
+
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+---
+ hw/arm/virt.c             | 12 +++++++
+ hw/misc/Kconfig           |  4 +++
+ hw/misc/inc-dev.c         | 67 +++++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build       |  2 ++
+ include/hw/arm/virt.h     |  1 +
+ include/hw/misc/inc-dev.h | 14 ++++++++
+ 6 files changed, 100 insertions(+)
+ create mode 100644 hw/misc/inc-dev.c
+ create mode 100644 include/hw/misc/inc-dev.h
+
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 5fa045c..40f35f7 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -85,6 +85,7 @@
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/char/pl011.h"
+ #include "qemu/guest-random.h"
++#include "hw/misc/inc-dev.h"
+ 
+ static GlobalProperty arm_virt_compat[] = {
+     { TYPE_VIRTIO_IOMMU_PCI, "aw-bits", "48" },
+@@ -171,6 +172,7 @@ static const MemMapEntry base_memmap[] = {
+     /* This redistributor space allows up to 2*64kB*123 CPUs */
+     [VIRT_GIC_REDIST] =         { 0x080A0000, 0x00F60000 },
+     [VIRT_UART0] =              { 0x09000000, 0x00001000 },
++    [VIRT_INC_DEV] =            { 0x09008000, 0x00001000 },
+     [VIRT_RTC] =                { 0x09010000, 0x00001000 },
+     [VIRT_FW_CFG] =             { 0x09020000, 0x00000018 },
+     [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
+@@ -2093,6 +2095,13 @@ static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
+     }
+ }
+ 
++static void create_inc_dev(VirtMachineState *vms)
++{
++    hwaddr base = vms->memmap[VIRT_INC_DEV].base;
++
++    sysbus_create_simple("inc-dev", base, NULL);
++}
++
+ static void machvirt_init(MachineState *machine)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(machine);
+@@ -2399,6 +2408,8 @@ static void machvirt_init(MachineState *machine)
+ 
+     vms->highmem_ecam &= (!firmware_loaded || aarch64);
+ 
++    create_inc_dev(vms);
++
+     create_rtc(vms);
+ 
+     create_pcie(vms);
+@@ -3117,6 +3128,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+      * configuration of the particular instance.
+      */
+     mc->max_cpus = 512;
++
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_CALXEDA_XGMAC);
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_AMD_XGBE);
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 1f1baa5..e673e79 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -1,3 +1,7 @@
++config INC_DEVICE
++    bool
++    default y
++
+ config APPLESMC
+     bool
+     depends on ISA_BUS
+diff --git a/hw/misc/inc-dev.c b/hw/misc/inc-dev.c
+new file mode 100644
+index 0000000..4138653
+--- /dev/null
++++ b/hw/misc/inc-dev.c
+@@ -0,0 +1,67 @@
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++
++#include "hw/misc/inc-dev.h"
++
++static uint64_t inc_dev_read(void *opaque, hwaddr addr, unsigned len)
++{
++    IncDev *dev = opaque;
++
++    if (addr != 0x0)
++        return 0;
++
++    return dev->cnt++;
++}
++
++static void inc_dev_write(void *opaque, hwaddr addr, uint64_t val,
++                          unsigned len)
++{
++    IncDev *dev = opaque;
++
++    if (addr != 0x0)
++        return;
++
++    dev->cnt = val;
++}
++
++static const MemoryRegionOps inc_dev_ops = {
++    .read  = inc_dev_read,
++    .write = inc_dev_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void inc_dev_init(Object *obj)
++{
++    IncDev *s = INC_DEV(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++
++    qemu_log("%s: enter\n", __func__);
++
++    s->cnt = 0;
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &inc_dev_ops, s,
++                          TYPE_INC_DEV, INC_DEV_SIZE);
++    sysbus_init_mmio(sbd, &s->iomem);
++}
++
++static void inc_dev_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    dc->desc = TYPE_INC_DEV;
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++}
++
++static const TypeInfo inc_dev_info = {
++    .name           = TYPE_INC_DEV,
++    .parent         = TYPE_SYS_BUS_DEVICE,
++    .instance_size  = sizeof(IncDev),
++    .instance_init  = inc_dev_init,
++    .class_init     = inc_dev_class_init,
++};
++
++static void inc_dev_register_types(void)
++{
++    type_register_static(&inc_dev_info);
++}
++
++type_init(inc_dev_register_types)
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index d02d96e..b8aec75 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -25,6 +25,8 @@ system_ss.add(when: 'CONFIG_IOSB', if_true: files('iosb.c'))
+ # virt devices
+ system_ss.add(when: 'CONFIG_VIRT_CTRL', if_true: files('virt_ctrl.c'))
+ 
++system_ss.add(when: 'CONFIG_INC_DEVICE', if_true: files('inc-dev.c'))
++
+ # RISC-V devices
+ system_ss.add(when: 'CONFIG_MCHP_PFSOC_DMC', if_true: files('mchp_pfsoc_dmc.c'))
+ system_ss.add(when: 'CONFIG_MCHP_PFSOC_IOSCB', if_true: files('mchp_pfsoc_ioscb.c'))
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index aca4f80..e0072f9 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -63,6 +63,7 @@ enum {
+     VIRT_GIC_REDIST,
+     VIRT_SMMU,
+     VIRT_UART0,
++    VIRT_INC_DEV,
+     VIRT_MMIO,
+     VIRT_RTC,
+     VIRT_FW_CFG,
+diff --git a/include/hw/misc/inc-dev.h b/include/hw/misc/inc-dev.h
+new file mode 100644
+index 0000000..8818c4b
+--- /dev/null
++++ b/include/hw/misc/inc-dev.h
+@@ -0,0 +1,14 @@
++#include "hw/sysbus.h"
++#include "exec/memory.h"
++#include "qom/object.h"
++
++#define INC_DEV_SIZE 0x1000
++
++struct IncDev {
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++    uint64_t cnt;
++};
++
++#define TYPE_INC_DEV "inc-dev"
++OBJECT_DECLARE_SIMPLE_TYPE(IncDev, INC_DEV)
+-- 
+2.47.1
+

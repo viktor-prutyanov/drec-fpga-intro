@@ -38,7 +38,3 @@ qemu-system-arm -M virt -cpu cortex-a15 -nographic
 
 Чтобы остановить машину, нужно набрать `Ctrl+A X`.
 
-## PL011 UART
-
-См. пример [07_qemu_pl011](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2026/07_qemu_pl011).
-
