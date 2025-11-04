@@ -38,3 +38,16 @@ qemu-system-arm -M virt -cpu cortex-a15 -nographic
 
 Чтобы остановить машину, нужно набрать `Ctrl+A X`.
 
+## Monitor
+
+Запуск машины с перенаправлением QEMU monitor (HMP) в порт 1234 по протоколу Telnet:
+
+```sh
+qemu-system-arm -M virt -monitor telnet:127.0.0.1:1234,server,nowait
+```
+
+Подключение через Telnet:
+ 
+```sh
+telnet 127.0.0.1 1234
+```
