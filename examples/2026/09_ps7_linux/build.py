@@ -4,7 +4,7 @@ XSA_PATH = 'fpga/design_1_wrapper.xsa'
 
 WORKSPACE = 'vitis'
 PLATFORM_NAME = 'zynq_platform'
-DOMAIN_NAME = 'standalone_ps7_cortexa9'
+DOMAIN_NAME = 'linux_ps7_cortexa9'
 
 client = vitis.create_client()
 
@@ -17,6 +17,9 @@ platform = client.create_platform_component(
     os="linux",
     domain_name=DOMAIN_NAME
 )
+
+domain = platform.get_domain(name=DOMAIN_NAME)
+domain.recompile_dtb()
 
 platform.build()
 

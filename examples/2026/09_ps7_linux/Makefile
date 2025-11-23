@@ -6,14 +6,19 @@ UIMAGE = $(LINUX)/build/arch/arm/boot/uImage
 
 export CROSS_COMPILE = arm-linux-gnueabihf-
 
+all: project impl vitis dtb uboot linux bootgen uramdisk.image.gz boot.scr
+
 download:
 	wget https://xilinx-wiki.atlassian.net/wiki/download/attachments/18842473/arm_ramdisk.image.gz -O ramdisk.image.gz 
 	git clone --branch xilinx-v2025.1 --depth 1 org-3189299@github.com:Xilinx/linux-xlnx.git $(LINUX)
 	git clone --branch xilinx-v2025.1 --depth 1 org-3189299@github.com:Xilinx/u-boot-xlnx.git $(UBOOT)
 	git clone --branch xlnx_rel_v2025.1 org-3189299@github.com:Xilinx/device-tree-xlnx.git $(DTXLNX)
 
-uramdisk.image.gz:
+uramdisk.image.gz: ramdisk.image.gz
 	mkimage -A arm -T ramdisk -C gzip -d ramdisk.image.gz uramdisk.image.gz
+
+boot.scr: boot.cmd
+	mkimage -A arm -T script -d boot.cmd boot.scr
 
 clean:
 	rm -rf *.log *.jou .Xil
@@ -21,7 +26,7 @@ clean:
 	rm -rf vitis
 	rm -rf *.dtsi *.dtb *.dts *.mss include
 	rm -rf BOOT.bin
-	rm -rf uramdisk.image.gz
+	rm -rf uramdisk.image.gz boot.scr
 	rm -rf $(LINUX)/build
 	rm -rf $(UBOOT)/build
 
@@ -34,12 +39,13 @@ impl:
 vitis:
 	vitis -s build.py
 
-dts:
+xsct:
 	xsct dts.tcl
-
-dtb:
 	gcc -I. -E -nostdinc -undef -D__DTS__ -x assembler-with-cpp -o system.dts system-top.dts
 	dtc -I dts -O dtb -o system.dtb system.dts
+
+dtb:
+	cp vitis/zynq_platform/export/zynq_platform/sw/boot/system.dtb system.dtb
 
 linux:
 	make -C $(LINUX) O=build ARCH=arm xilinx_zynq_defconfig
@@ -55,14 +61,16 @@ bootgen:
 	bootgen -image input.bif -arch zynq -o BOOT.bin -w on
 
 flash:
+	rm -rf $(SDCARD)/*
 	cp -f BOOT.bin $(SDCARD)
 	cp -f system.dtb $(SDCARD)
 	cp -f $(UIMAGE) $(SDCARD)
 	cp -f uramdisk.image.gz $(SDCARD)
+	cp -f boot.scr $(SDCARD)
 	sync $(SDCARD)
 
 gui:
 	vivado fpga/fpga.xpr
 
-.PHONY: clean gui project bootgen flash vitis impl dtb linux uboot download
+.PHONY: all clean gui project bootgen flash vitis impl xsct dtb linux uboot download
 
