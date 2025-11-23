@@ -1,0 +1,7 @@
+//arch = zynq; split = false; format = BIN
+the_ROM_image:
+{
+	[bootloader]./vitis/zynq_platform/export/zynq_platform/sw/boot/fsbl.elf
+	./fpga/fpga.runs/impl_1/design_1_wrapper.bit
+	./vitis/hello_world/build/hello_world.elf
+}
