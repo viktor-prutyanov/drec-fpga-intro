@@ -29,7 +29,7 @@
 
 ### Installation Progress
 
-Проуесс устнаовки займет некоторое время.
+Запустится процесс установки, который займет некоторое время.
 
 <img width="932" height="711" alt="image" src="https://github.com/user-attachments/assets/26005e82-3605-4821-808f-e3ed919b0cc1" />
 
