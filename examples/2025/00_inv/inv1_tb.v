@@ -2,19 +2,21 @@
 
 module inv1_tb; // No inputs/outputs
 
-wire y;       // Net ‘y’ (doesn’t store data)
-reg x = 1'b0; // Variable ‘x’ (stores data)
+wire b; // Net ‘y’ (doesn’t store data)
+reg a;  // Variable ‘a’ (stores data)
+
+initial a = 1'b0; // Initial assignment before time 0
 
 always begin
-    #1 x = ~x; // Wait 1ns, toggle ‘x’ and repeat
+    #1 a = ~a; // Wait 1ns, toggle ‘a’ (blocking) and repeat
 end
 
-lab00_inv1 lab00_inv1_inst(.i_x(x), .o_y(y));
+lab00_inv1 lab00_inv1_inst(.i_x(a), .o_y(b));
 
 initial begin
     $dumpvars; // Dump signals to file
-    $display("[%t] Start x=%B y=%B", $realtime, x, y); // Print to console
-    #10 $display("[%t] Done", $realtime); // Wait 10ns, print
+    $display("[%t] Start a=%B b=%B", $realtime, a, b); // Print to console
+    #10 $display("[%t] Done a=%B b=%B", $realtime, a, b); // Wait 10ns, print
     $finish; // End simulation
 end
 
