@@ -20,6 +20,7 @@ title: "Список материалов"
 | 7b  | [Конвейерные вычисления](https://docs.google.com/presentation/d/10LPWZqqwGkNW45AFo-a64QdzvaN9OXWRo5L_dI8OWbE) | - | - | [07_fp16pipe](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/07_fp16pipe) |
 | 8   | [RISC-V: 2-стадийная реализация](https://docs.google.com/presentation/d/1viiUbddl-3-mMLHUyqRT4Qwg-TDqU6svTKQP5wMri3Y) | - | - | [08_cpu](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/08_cpu) |
 | 9   | [RISC-V: 3-стадийная реализация](https://docs.google.com/presentation/d/1QbmjNIb4kOxNY0MI4AXhF-Dj0UDitCWxHmHr5LqA0AE) | - | - | [09_cpu](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/09_cpu) |
+| 10  | CDC | - | - |
 
 # Проектирование цифровых вычислительных систем
 
