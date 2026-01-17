@@ -58,7 +58,7 @@ CONFIG_SERIAL_AMBA_PL011_CONSOLE=y
 ## Компиляция
 
 ```sh
-yes "" | make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-gcc- O=build -j zImage
+yes "" | make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- O=build -j zImage
 ```
 
 ```
