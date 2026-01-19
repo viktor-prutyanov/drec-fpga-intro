@@ -1,0 +1,17 @@
+Inverter DC Transfer
+
+.include "~/OpenRAM/skywater-pdk/libraries/sky130_fd_pr/latest/models/corners/tt.spice"
+.include "~/OpenRAM/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/inv/sky130_fd_sc_hd__inv_1.spice"
+
+* the voltage sources:
+Vin vin 0 pulse(0 1.8 0p 200p 100p 1n 2n)
+Vdd vdd 0 dc 1.8
+
+Xinv vin 0 0 vdd vdd vout sky130_fd_sc_hd__inv_1
+
+.tran 1ps 10ns 0 10p
+
+.control
+    run
+    plot vin vout
+.endc
