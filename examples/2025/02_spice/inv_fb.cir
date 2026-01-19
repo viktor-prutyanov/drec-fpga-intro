@@ -1,0 +1,18 @@
+* Bi-stable element, SkyWater130 HD, TT 27C
+
+.include "~/OpenRAM/skywater-pdk/libraries/sky130_fd_pr/latest/models/corners/tt.spice"
+.include "~/OpenRAM/skywater-pdk/libraries/sky130_fd_sc_hd/latest/cells/inv/sky130_fd_sc_hd__inv_1.spice"
+
+* the voltage sources:
+Vin vin 0 dc 1.8
+Vdd vdd 0 dc 1.8
+
+Xinv1 vin gnd gnd vdd vdd vout sky130_fd_sc_hd__inv_1
+Xinv2 vout gnd gnd vdd vdd vin sky130_fd_sc_hd__inv_1
+
+.control
+
+dc vin 0 1.8 0.001
+plot v(vout) abs(i(Vin)) * 1000
+
+.endc
