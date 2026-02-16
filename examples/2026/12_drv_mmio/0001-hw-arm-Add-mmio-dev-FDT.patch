@@ -1,0 +1,33 @@
+From 904b23db16bfda3f6c38f652d2695df1e1fa70c0 Mon Sep 17 00:00:00 2001
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Date: Sat, 17 Jan 2026 21:41:17 +0300
+Subject: [PATCH] hw/arm: Add mmio-dev FDT
+
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+---
+ hw/arm/virt.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 40f35f7..5f080cd 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2100,6 +2100,15 @@ static void create_inc_dev(VirtMachineState *vms)
+     hwaddr base = vms->memmap[VIRT_INC_DEV].base;
+ 
+     sysbus_create_simple("inc-dev", base, NULL);
++
++    MachineState *ms = MACHINE(vms);
++    char *name = g_strdup_printf("/mmio-dev@%lx", (long)vms->memmap[VIRT_INC_DEV].base);
++    qemu_fdt_add_subnode(ms->fdt, name);
++    qemu_fdt_setprop_string(ms->fdt, name, "compatible", "drec-fpga-intro,mmio-dev");
++    qemu_fdt_setprop_cells(ms->fdt, name, "reg",
++            0x0, vms->memmap[VIRT_INC_DEV].base,
++            0x0, vms->memmap[VIRT_INC_DEV].size);
++    g_free(name);
+ }
+ 
+ static void machvirt_init(MachineState *machine)
+-- 
+2.40.1
+
