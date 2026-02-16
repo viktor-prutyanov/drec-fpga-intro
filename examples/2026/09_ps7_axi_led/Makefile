@@ -9,10 +9,10 @@ export CROSS_COMPILE = arm-linux-gnueabihf-
 all: project impl vitis dtb uboot linux bootgen uramdisk.image.gz boot.scr
 
 download:
-	wget https://xilinx-wiki.atlassian.net/wiki/download/attachments/18842473/arm_ramdisk.image.gz -O ramdisk.image.gz 
-	git clone --branch xilinx-v2025.1 --depth 1 org-3189299@github.com:Xilinx/linux-xlnx.git $(LINUX)
-	git clone --branch xilinx-v2025.1 --depth 1 org-3189299@github.com:Xilinx/u-boot-xlnx.git $(UBOOT)
-	git clone --branch xlnx_rel_v2025.1 org-3189299@github.com:Xilinx/device-tree-xlnx.git $(DTXLNX)
+	wget https://xilinx-wiki.atlassian.net/wiki/download/attachments/18842473/arm_ramdisk.image.gz -O ramdisk.image.gz
+	git clone --branch xilinx-v2025.2 --depth 1 org-3189299@github.com:Xilinx/linux-xlnx.git $(LINUX)
+	git clone --branch xilinx-v2025.2 --depth 1 org-3189299@github.com:Xilinx/u-boot-xlnx.git $(UBOOT)
+	git clone --branch xlnx_rel_v2025.2 org-3189299@github.com:Xilinx/device-tree-xlnx.git $(DTXLNX)
 
 uramdisk.image.gz: ramdisk.image.gz
 	mkimage -A arm -T ramdisk -C gzip -d ramdisk.image.gz uramdisk.image.gz
@@ -50,6 +50,7 @@ dtb:
 linux:
 	make -C $(LINUX) O=build ARCH=arm xilinx_zynq_defconfig
 	make -C $(LINUX) O=build ARCH=arm UIMAGE_LOADADDR=0x8000 -j`nproc` uImage
+	make -C $(LINUX) O=build ARCH=arm modules
 
 uboot:
 	make -C $(UBOOT) O=build ARCH=arm xilinx_zynq_virt_defconfig
