@@ -17,7 +17,7 @@ static int incdev_probe(struct platform_device *pdev)
 
     dev_info(dev, "MMIO at %px\n", reg_base);
 
-    iowrite32(0x10, reg_base);
+    iowrite32(0x5, reg_base);
 
     u32 v1 = ioread32(reg_base);
     u32 v2 = ioread32(reg_base);

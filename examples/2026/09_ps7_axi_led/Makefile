@@ -50,7 +50,6 @@ dtb:
 linux:
 	make -C $(LINUX) O=build ARCH=arm xilinx_zynq_defconfig
 	make -C $(LINUX) O=build ARCH=arm UIMAGE_LOADADDR=0x8000 -j`nproc` uImage
-	make -C $(LINUX) O=build ARCH=arm modules
 
 uboot:
 	make -C $(UBOOT) O=build ARCH=arm xilinx_zynq_virt_defconfig
