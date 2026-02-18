@@ -46,8 +46,8 @@ vitis:
 dts:
 	cp vitis/zynq_platform/export/zynq_platform/sw/boot/system.dtb system.dtb
 	dtc -I dtb -O dts -o system.dts system.dtb
-#	sed -i '/gpio@41200000/,/};/ s/compatible = "xlnx,axi-gpio-2.0\\0xlnx,xps-gpio-1.00.a";/compatible = "drec-fpga-intro,mmio-dev";/' system.dts
-#	dtc -I dts -O dtb -o system.dtb system.dts
+	sed -i '/gpio@41200000/,/};/ s/compatible = "xlnx,axi-gpio-2.0\\0xlnx,xps-gpio-1.00.a";/compatible = "drec-fpga-intro,mmio-dev";/' system.dts
+	dtc -I dts -O dtb -o system.dtb system.dts
 
 linux:
 	make -C $(LINUX) O=build ARCH=arm xilinx_zynq_defconfig
