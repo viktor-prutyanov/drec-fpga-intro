@@ -4,6 +4,10 @@ create_project fpga ./fpga -part xc7z020clg400-2
 # Set target language
 set_property target_language Verilog [current_project]
 
+add_files -norecurse sync.v
+
+update_compile_order -fileset sources_1
+
 create_bd_design "design_1" -dir fpga
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0
@@ -28,10 +32,6 @@ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0
 set_property -dict [list \
   CONFIG.C_ALL_OUTPUTS {1} \
   CONFIG.C_GPIO_WIDTH {4} \
-  CONFIG.C_ALL_INPUTS_2 {1} \
-  CONFIG.C_GPIO2_WIDTH {2} \
-  CONFIG.C_INTERRUPT_PRESENT {1} \
-  CONFIG.C_IS_DUAL {1} \
 ] [get_bd_cells axi_gpio_0]
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_protocol_converter:2.1 axi_protocol_convert_0
@@ -43,8 +43,10 @@ set_property -dict [list \
 
 create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0
 
+create_bd_cell -type module -reference sync sync_0
+
 create_bd_port -dir O -from 3 -to 0 -type data led
-create_bd_port -dir I -from 1 -to 0 -type data key
+create_bd_port -dir I -from 0 -to 0 -type data key
 
 connect_bd_net [get_bd_pins axi_protocol_convert_0/aclk]    [get_bd_pins processing_system7_0/FCLK_CLK0]
 connect_bd_net [get_bd_pins axi_gpio_0/s_axi_aclk]          [get_bd_pins processing_system7_0/FCLK_CLK0]
@@ -56,36 +58,14 @@ connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins ax
 connect_bd_net [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_protocol_convert_0/aresetn]
 
 connect_bd_net [get_bd_ports led] [get_bd_pins axi_gpio_0/gpio_io_o]
-connect_bd_net [get_bd_ports key] [get_bd_pins axi_gpio_0/gpio2_io_i]
 
 connect_bd_intf_net [get_bd_intf_pins processing_system7_0/M_AXI_GP0] [get_bd_intf_pins axi_protocol_convert_0/S_AXI]
 connect_bd_intf_net [get_bd_intf_pins axi_protocol_convert_0/M_AXI]   [get_bd_intf_pins axi_gpio_0/S_AXI]
 
-connect_bd_net [get_bd_pins axi_gpio_0/ip2intc_irpt] [get_bd_pins processing_system7_0/IRQ_F2P]
-
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_intf_nets {processing_system7_0_M_AXI_GP0}]
-set_property HDL_ATTRIBUTE.DEBUG true [get_bd_nets {axi_gpio_0_ip2intc_irpt }]
-
-apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-  [get_bd_intf_nets processing_system7_0_M_AXI_GP0] { \
-    AXI_R_ADDRESS "Data and Trigger"          \
-    AXI_R_DATA "Data and Trigger"             \
-    AXI_W_ADDRESS "Data and Trigger"          \
-    AXI_W_DATA "Data and Trigger"             \
-    AXI_W_RESPONSE "Data and Trigger"         \
-    CLK_SRC "/processing_system7_0/FCLK_CLK0" \
-    SYSTEM_ILA "Auto"                         \
-    APC_EN "0"                                \
-  } \
-]
-
-apply_bd_automation -rule xilinx.com:bd_rule:debug -dict [list \
-  [get_bd_nets axi_gpio_0_ip2intc_irpt] {     \
-    PROBE_TYPE "Data and Trigger"             \
-    CLK_SRC "/processing_system7_0/FCLK_CLK0" \
-    SYSTEM_ILA "Auto"                         \
-  } \
-]
+connect_bd_net [get_bd_pins sync_0/clk] [get_bd_pins processing_system7_0/FCLK_CLK0]
+connect_bd_net [get_bd_pins sync_0/o_d] [get_bd_pins processing_system7_0/IRQ_F2P]
+connect_bd_net [get_bd_pins sync_0/rst_n] [get_bd_pins proc_sys_reset_0/peripheral_aresetn]
+connect_bd_net [get_bd_ports key] [get_bd_pins sync_0/i_d]
 
 regenerate_bd_layout -routing
 
