@@ -4,7 +4,7 @@ DTXLNX = device-tree-xilinx
 KDIR = $(LINUX)/build
 UIMAGE = $(LINUX)/build/arch/arm/boot/uImage
 
-obj-m := hello-mmio.o
+obj-m := hello-irq.o
 PWD := $(shell pwd)
 
 export CROSS_COMPILE = arm-linux-gnueabihf-
@@ -46,8 +46,7 @@ vitis:
 dts:
 	cp vitis/zynq_platform/export/zynq_platform/sw/boot/system.dtb system.dtb
 	dtc -I dtb -O dts -o system.dts system.dtb
-
-dtb:
+	patch < key.dts.patch
 	dtc -I dts -O dtb -o system.dtb system.dts
 
 linux:
@@ -71,7 +70,7 @@ flash:
 	cp -f $(UIMAGE) $(SDCARD)
 	cp -f uramdisk.image.gz $(SDCARD)
 	cp -f boot.scr $(SDCARD)
-	cp -f hello-mmio.ko $(SDCARD)
+	cp -f hello-irq.ko $(SDCARD)
 	sync $(SDCARD)
 
 gui:
