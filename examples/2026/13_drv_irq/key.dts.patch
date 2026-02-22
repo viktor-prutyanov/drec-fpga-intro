@@ -1,0 +1,16 @@
+--- system.dts	2026-02-22 18:59:26.454848030 +0300
++++ system.dts	2026-02-22 18:59:24.584851498 +0300
+@@ -10,6 +10,13 @@
+ 	family = "Zynq";
+ 	speed_grade = "2";
+ 
++    key {
++        #interrupt-cells = <0x02>;
++        interrupts = <0x00 0x1d 0x01>;
++        interrupt-parent = <0x11>;
++        compatible = "drec-fpga-intro,key-dev";
++    };
++
+ 	options {
+ 
+ 		u-boot {
