@@ -1,4 +1,4 @@
-LINUX = linux-xlnx
+LINUX ?= linux-xlnx
 UBOOT = u-boot-xlnx
 DTXLNX = device-tree-xilinx
 KDIR = $(LINUX)/build
