@@ -42,7 +42,7 @@ static int keydev_probe(struct platform_device *pdev)
 }
 
 static const struct of_device_id keydev_dt_match[] = {{
-        .compatible = "drec-fpga-intro,key-dev",
+        .compatible = "drec-fpga-intro,mmio-dev",
     }, {},
 };
 MODULE_DEVICE_TABLE(of, keydev_dt_match);
