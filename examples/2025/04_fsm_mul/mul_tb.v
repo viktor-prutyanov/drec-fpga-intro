@@ -12,7 +12,7 @@ end
 localparam N = 16;
 
 reg          i_vld = 1'b0;
-reg  [N-1:0] i_a, i_b, res;
+reg  [N-1:0] i_a, i_b;
 wire [N-1:0] o_res;
 wire         o_vld;
 
@@ -21,12 +21,12 @@ initial begin
     rst_n <= 1'b1;
 end
 
-always begin
-    wait (rst_n == 1'b1);
-    @(posedge clk);
+task rnd_mul();
+    reg [N-1:0] res;
+begin
     i_vld <= 1'b1;
-    i_a   <= $urandom_range(0, 2**(N/2)-1);
-    i_b   <= $urandom_range(0, 2**(N/2)-1);
+    i_a <= $urandom_range(0, 2**(N/2)-1);
+    i_b <= $urandom_range(0, 2**(N/2)-1);
     @(posedge clk);
     res   <= i_a * i_b;
     i_vld <= 1'b0;
@@ -37,6 +37,15 @@ always begin
         $display("[FAIL]");
         $finish;
     end
+    @(posedge clk);
+end
+endtask
+
+initial begin
+    wait (rst_n == 1'b1);
+    @(posedge clk);
+    for (integer i = 0; i < 10; i = i + 1)
+        rnd_mul();
 end
 
 mul #(N) mul(
